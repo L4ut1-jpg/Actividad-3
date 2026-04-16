@@ -1,0 +1,111 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Edad</title>
+</head>
+<body>
+
+    <h2>Calculadora de Edad</h2>
+
+    <input type="date" id="nacimiento">
+    <br><br>
+
+    <button id="calcular">Calcular Edad</button>
+    <button id="cumple">Próximo cumpleaños</button>
+
+    <p id="resultadoEdad"></p>
+    <p id="resultadoCumple"></p>
+
+    <h3>Historial (últimos 5)</h3>
+    <ul id="historial"></ul>
+
+    <script>
+        let historial = [];
+
+        function calcularEdad(fechaNacimiento) {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+
+            const mes = hoy.getMonth() - nacimiento.getMonth();
+
+            if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+
+            if (edad < 0) return "Error";
+            if (edad >= 120) return "Está en el límite";
+
+            return `Su edad es ${edad}`;
+        }
+
+        function diasParaCumple(fechaNacimiento) {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+
+            let proximo = new Date(hoy.getFullYear(), nacimiento.getMonth(), nacimiento.getDate());
+
+            if (proximo < hoy) {
+                proximo.setFullYear(hoy.getFullYear() + 1);
+            }
+
+            const diff = proximo - hoy;
+            const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+            return `Faltan ${dias} días para tu cumpleaños 🎂`;
+        }
+
+        function guardarHistorial(texto) {
+            historial.unshift(texto);
+
+            if (historial.length > 5) {
+                historial.pop();
+            }
+
+            mostrarHistorial();
+        }
+
+        function mostrarHistorial() {
+            const lista = document.getElementById("historial");
+            lista.innerHTML = "";
+
+            historial.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                lista.appendChild(li);
+            });
+        }
+
+        document.getElementById("calcular").addEventListener("click", function() {
+            const fecha = document.getElementById("nacimiento").value;
+
+            if (!fecha) {
+                alert("Seleccioná una fecha primero");
+                return;
+            }
+
+            const resultado = calcularEdad(fecha);
+            document.getElementById("resultadoEdad").textContent = resultado;
+
+            guardarHistorial(resultado);
+        });
+
+        document.getElementById("cumple").addEventListener("click", function() {
+            const fecha = document.getElementById("nacimiento").value;
+
+            if (!fecha) {
+                alert("Seleccioná una fecha primero");
+                return;
+            }
+
+            const resultado = diasParaCumple(fecha);
+            document.getElementById("resultadoCumple").textContent = resultado;
+        });
+    </script>
+
+</body>
+</html>
+```

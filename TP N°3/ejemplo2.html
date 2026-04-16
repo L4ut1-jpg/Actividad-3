@@ -1,0 +1,67 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Interacción con JavaScript</title>
+</head>
+<body>
+
+    <h1>Interacción con JavaScript</h1>
+
+    <p id="texto">Texto original</p>
+    <p id="contador">Clics: 0</p>
+
+    <button id="color">Cambiar color</button>
+    <button id="tamano">Cambiar tamaño</button>
+    <button id="fondo">Cambiar fondo</button>
+    <button id="reset">Restablecer</button>
+
+    <script>
+        const texto = document.getElementById("texto");
+        const contadorTexto = document.getElementById("contador");
+
+        let contador = 0;
+
+        // Guardamos estado original
+        const estadoOriginal = {
+            color: texto.style.color,
+            fontSize: texto.style.fontSize,
+            backgroundColor: texto.style.backgroundColor,
+            textContent: texto.textContent
+        };
+
+        function actualizarContador() {
+            contador++;
+            contadorTexto.textContent = "Clics: " + contador;
+        }
+
+        document.getElementById("color").addEventListener("click", function() {
+            texto.style.color = "red";
+            texto.textContent = "Color cambiado";
+            actualizarContador();
+        });
+
+        document.getElementById("tamano").addEventListener("click", function() {
+            texto.style.fontSize = "30px";
+            texto.textContent = "Tamaño cambiado";
+            actualizarContador();
+        });
+
+        document.getElementById("fondo").addEventListener("click", function() {
+            texto.style.backgroundColor = "yellow";
+            texto.textContent = "Fondo cambiado";
+            actualizarContador();
+        });
+
+        document.getElementById("reset").addEventListener("click", function() {
+            texto.style.color = estadoOriginal.color;
+            texto.style.fontSize = estadoOriginal.fontSize;
+            texto.style.backgroundColor = estadoOriginal.backgroundColor;
+            texto.textContent = "Texto original";
+        });
+    </script>
+
+</body>
+</html>
+```
